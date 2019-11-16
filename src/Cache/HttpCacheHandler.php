@@ -15,14 +15,14 @@ namespace Sonata\BlockBundle\Cache;
 
 use Sonata\BlockBundle\Block\BlockContextInterface;
 use Symfony\Component\HttpFoundation\Response;
-use Symfony\Component\HttpKernel\Event\FilterResponseEvent;
+use Symfony\Component\HttpKernel\Event\ResponseEvent;
 
 final class HttpCacheHandler implements HttpCacheHandlerInterface
 {
     /**
      * @var int|null
      */
-    private $currentTtl = null;
+    private $currentTtl;
 
     public function alterResponse(Response $response): void
     {
@@ -54,7 +54,7 @@ final class HttpCacheHandler implements HttpCacheHandlerInterface
         }
     }
 
-    public function onKernelResponse(FilterResponseEvent $event): void
+    public function onKernelResponse(ResponseEvent $event): void
     {
         $this->alterResponse($event->getResponse());
     }

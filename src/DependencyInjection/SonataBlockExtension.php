@@ -20,6 +20,7 @@ use Symfony\Component\DependencyInjection\Definition;
 use Symfony\Component\DependencyInjection\Loader\XmlFileLoader;
 use Symfony\Component\DependencyInjection\Reference;
 use Symfony\Component\HttpKernel\DependencyInjection\Extension;
+use Sonata\BlockBundle\Profiler\DataCollector\BlockDataCollector;
 
 /**
  * @author Thomas Rabaix <thomas.rabaix@sonata-project.org>
@@ -168,7 +169,7 @@ final class SonataBlockExtension extends Extension
         }
 
         // add the block data collector
-        $definition = new Definition('Sonata\BlockBundle\Profiler\DataCollector\BlockDataCollector');
+        $definition = new Definition(BlockDataCollector::class);
         $definition->setPublic(false);
         $definition->addTag('data_collector', ['id' => 'block', 'template' => $config['profiler']['template']]);
         $definition->addArgument(new Reference('sonata.block.templating.helper'));
@@ -201,10 +202,10 @@ final class SonataBlockExtension extends Extension
         $blockFilters = [];
         $blockRenderers = [];
         foreach ($config['blocks'] as $service => $settings) {
-            if (isset($settings['exception'], $settings['exception']['filter'])) {
+            if (isset($settings['exception']['filter'])) {
                 $blockFilters[$service] = $settings['exception']['filter'];
             }
-            if (isset($settings['exception'], $settings['exception']['renderer'])) {
+            if (isset($settings['exception']['renderer'])) {
                 $blockRenderers[$service] = $settings['exception']['renderer'];
             }
         }
