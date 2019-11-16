@@ -24,8 +24,6 @@ use Symfony\Component\OptionsResolver\OptionsResolver;
 
 final class DebugBlocksCommand extends Command
 {
-    protected static $defaultName = 'debug:sonata:block';
-
     /**
      * @var BlockServiceManagerInterface
      */
